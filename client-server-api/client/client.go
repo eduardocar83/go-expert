@@ -24,6 +24,8 @@ func RequisitarServidorLocal() {
 		return
 	}
 
+	log.Printf("A cotação do dolar é: %s", cotacao.Bid)
+
 	err = salvarCotacaoEmArquivo(cotacao)
 	if err != nil {
 		log.Printf("erro ao salvar cotacao em arquivo: %v", err)

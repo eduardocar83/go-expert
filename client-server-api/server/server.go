@@ -42,7 +42,7 @@ func InicializarServidor() {
 
 	mux := http.NewServeMux()
 	mux.HandleFunc("/cotacao", cotacaoHandler)
-	http.ListenAndServe("localhost:8080", mux)
+	log.Fatal(http.ListenAndServe("localhost:8080", mux))
 }
 
 func initDB() {
