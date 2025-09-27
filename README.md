@@ -60,7 +60,7 @@ Se nenhuma das APIs responder em até 1 segundo, uma mensagem de timeout será e
 
 2. Execute o comando:
    ```bash
-   go run server.go
+   go run main.go
    ```
 
 3. Verifique no console a resposta mais rápida.
