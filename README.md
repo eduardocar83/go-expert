@@ -44,3 +44,25 @@ O servidor expõe uma API REST para consulta de cotações e o cliente consome e
    ```
 
 3. Verifique que foi criado o arquivo **cotacao.txt** contendo a cotação do dólar.
+
+# Desafio multithreading
+
+Este projeto é uma aplicação multithread em Go que realiza consultas simultâneas a duas APIs de CEP: ViaCep e BrasilApi.
+A aplicação seleciona a resposta mais rápida e a exibe no console, descartando a resposta mais lenta.
+Se nenhuma das APIs responder em até 1 segundo, uma mensagem de timeout será exibida no console.s
+
+##  Executando a aplicação
+
+1. Acesse a pasta:
+   ```bash
+   cd multithreading
+   ```
+
+2. Execute o comando:
+   ```bash
+   go run server.go
+   ```
+
+3. Verifique no console a resposta mais rápida.
+
+

@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"log"
 	"net/http"
 	"net/url"
 	"time"
@@ -54,7 +55,7 @@ func main() {
 	go func() {
 		endereco, err := consultarViaCep(defaultCEP)
 		if err != nil {
-			fmt.Println(err)
+			log.Println(err)
 			return
 		}
 		chViaCep <- endereco
@@ -63,7 +64,7 @@ func main() {
 	go func() {
 		endereco, err := consultarBrasilApiCep(defaultCEP)
 		if err != nil {
-			fmt.Println(err)
+			log.Println(err)
 			return
 		}
 		chBrasilApi <- endereco
@@ -71,15 +72,17 @@ func main() {
 
 	select {
 	case enderecoViaCep := <-chViaCep:
-		fmt.Println(enderecoViaCep)
+		log.Println(enderecoViaCep)
 	case enderecoBrasilApi := <-chBrasilApi:
-		fmt.Println(enderecoBrasilApi)
+		log.Println(enderecoBrasilApi)
 	case <-time.After(time.Second * defaultTimeout):
-		fmt.Printf("Timeout: Após %d segundos não obtivemos nenhuma resposta com sucesso das apis de cep\n", defaultTimeout)
+		log.Printf("Timeout: Após %d segundos não obtivemos nenhuma resposta com sucesso das apis de cep\n", defaultTimeout)
 	}
 }
 
 func consultarViaCep(cep string) (*Endereco, error) {
+	log.Println("Iniciando consulta Via Cep")
+
 	reqURL := fmt.Sprintf("http://viacep.com.br/ws/%s/json/", url.PathEscape(cep))
 
 	resp, err := http.Get(reqURL)
@@ -102,6 +105,8 @@ func consultarViaCep(cep string) (*Endereco, error) {
 		return nil, fmt.Errorf("erro ao parsear resposta de viaCep [%s]: %w", reqURL, err)
 	}
 
+	log.Println("Finalizando consulta Via Cep")
+
 	return &Endereco{
 		CEP:     response.Cep,
 		Estado:  response.Estado,
@@ -113,6 +118,8 @@ func consultarViaCep(cep string) (*Endereco, error) {
 }
 
 func consultarBrasilApiCep(cep string) (*Endereco, error) {
+	log.Println("Iniciando consulta Brasil Api")
+
 	reqURL := fmt.Sprintf("https://brasilapi.com.br/api/cep/v1/%s", url.PathEscape(cep))
 
 	resp, err := http.Get(reqURL)
@@ -134,6 +141,8 @@ func consultarBrasilApiCep(cep string) (*Endereco, error) {
 	if err = json.Unmarshal(payload, &response); err != nil {
 		return nil, fmt.Errorf("erro ao parsear resposta de BrasilApi [%s]: %w", reqURL, err)
 	}
+
+	log.Println("Finalizando consulta Brasil Api")
 
 	return &Endereco{
 		CEP:     response.Cep,
