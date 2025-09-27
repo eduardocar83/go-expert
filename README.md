@@ -49,11 +49,11 @@ O servidor expõe uma API REST para consulta de cotações e o cliente consome e
 
 Este projeto é uma aplicação multithread em Go que realiza consultas simultâneas a duas APIs de CEP: ViaCep e BrasilApi.
 A aplicação seleciona a resposta mais rápida e a exibe no console, descartando a resposta mais lenta.
-Se nenhuma das APIs responder em até 1 segundo, uma mensagem de timeout será exibida no console.s
+Se nenhuma das APIs responder em até 1 segundo, uma mensagem de timeout será exibida no console.
 
 ##  Executando a aplicação
 
-1. Acesse a pasta:
+1. Acesse a pasta do desafio:
    ```bash
    cd multithreading
    ```
